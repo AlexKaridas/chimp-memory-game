@@ -1,0 +1,11 @@
+[package]
+name = "chimp_game"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+actix-files = "0.6"
+actix-web = { version = "4", features = ["openssl"] }
+openssl = { version = "0.10" } 
+env_logger = "0.10"
+log = "0.4"

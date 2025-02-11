@@ -1,0 +1,10 @@
+/run/media/alexkarydas/SSDX/FILES/Projects/nextjs/chimp_game/chimp_game_server/target/debug/deps/libactix_rt-051ee2c5f0daba79.rmeta: /home/alexkarydas/.cargo/registry/src/index.crates.io-6f17d22bba15001f/actix-rt-2.10.0/src/lib.rs /home/alexkarydas/.cargo/registry/src/index.crates.io-6f17d22bba15001f/actix-rt-2.10.0/src/arbiter.rs /home/alexkarydas/.cargo/registry/src/index.crates.io-6f17d22bba15001f/actix-rt-2.10.0/src/runtime.rs /home/alexkarydas/.cargo/registry/src/index.crates.io-6f17d22bba15001f/actix-rt-2.10.0/src/system.rs
+
+/run/media/alexkarydas/SSDX/FILES/Projects/nextjs/chimp_game/chimp_game_server/target/debug/deps/libactix_rt-051ee2c5f0daba79.rlib: /home/alexkarydas/.cargo/registry/src/index.crates.io-6f17d22bba15001f/actix-rt-2.10.0/src/lib.rs /home/alexkarydas/.cargo/registry/src/index.crates.io-6f17d22bba15001f/actix-rt-2.10.0/src/arbiter.rs /home/alexkarydas/.cargo/registry/src/index.crates.io-6f17d22bba15001f/actix-rt-2.10.0/src/runtime.rs /home/alexkarydas/.cargo/registry/src/index.crates.io-6f17d22bba15001f/actix-rt-2.10.0/src/system.rs
+
+/run/media/alexkarydas/SSDX/FILES/Projects/nextjs/chimp_game/chimp_game_server/target/debug/deps/actix_rt-051ee2c5f0daba79.d: /home/alexkarydas/.cargo/registry/src/index.crates.io-6f17d22bba15001f/actix-rt-2.10.0/src/lib.rs /home/alexkarydas/.cargo/registry/src/index.crates.io-6f17d22bba15001f/actix-rt-2.10.0/src/arbiter.rs /home/alexkarydas/.cargo/registry/src/index.crates.io-6f17d22bba15001f/actix-rt-2.10.0/src/runtime.rs /home/alexkarydas/.cargo/registry/src/index.crates.io-6f17d22bba15001f/actix-rt-2.10.0/src/system.rs
+
+/home/alexkarydas/.cargo/registry/src/index.crates.io-6f17d22bba15001f/actix-rt-2.10.0/src/lib.rs:
+/home/alexkarydas/.cargo/registry/src/index.crates.io-6f17d22bba15001f/actix-rt-2.10.0/src/arbiter.rs:
+/home/alexkarydas/.cargo/registry/src/index.crates.io-6f17d22bba15001f/actix-rt-2.10.0/src/runtime.rs:
+/home/alexkarydas/.cargo/registry/src/index.crates.io-6f17d22bba15001f/actix-rt-2.10.0/src/system.rs:

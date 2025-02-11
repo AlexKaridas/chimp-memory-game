@@ -1,0 +1,1 @@
+/run/media/alexkarydas/SSDX/FILES/Projects/nextjs/chimp_game/chimp_game_server/target/debug/chimp_game_server: /run/media/alexkarydas/SSDX/FILES/Projects/nextjs/chimp_game/chimp_game_server/src/main.rs

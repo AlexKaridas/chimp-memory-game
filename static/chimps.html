@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chimp Game</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="chimps.js" defer></script>
+  <link href="https://fonts.googleapis.com/css2?family=Bungee&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Press Start 2P', cursive;
+    }
+  </style>
+</head>
+
+<body
+  class="flex h-screen  transition ease-in-out duration-200 items-center justify-center text-4xl bg-black text-center flex w-full py-5 px-7 items-center justify-center flex-col gap-10">
+  <!--Backdrop window -->
+  <div id="back_window" class="absolute h-screen w-full bg-black z-10 inset-0 flex items-center justify-center">
+  </div>
+  <h1 class="flex items-center justify-center text-white text-xl sm:text-4xl ">Welcome to the Chimps game!</h1>
+  <!--Begin window -->
+  <div id="start_window" class="absolute z-20 inset-0 flex items-center justify-center">
+    <div class="w-72 p-6 bg-gray-900 border-4 border-yellow-400 rounded-xl shadow-2xl text-center">
+      <h1 class="text-yellow-300 text-2xl font-mono font-bold mb-6 tracking-wide drop-shadow-lg">
+        🐵 Chimps Game 🕹️
+      </h1>
+
+      <button id="start"
+        class="w-full py-3 mb-3 bg-green-500 text-black font-bold text-lg rounded-lg shadow-md hover:bg-green-600 active:bg-green-700 transition-transform transform hover:scale-105 active:scale-95">
+        Start
+      </button>
+    </div>
+  </div>
+
+
+  <!-- Win window -->
+  <div id="win" class="hidden fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+    <div class="w-80 p-6 bg-gray-900 border-4 border-yellow-400 rounded-lg shadow-lg text-center">
+      <h1 class="text-yellow-300 text-2xl font-mono mb-4 animate-pulse">You Win!</h1>
+      <h4 id="timer" class="text-sm text-gray-200 mb-4"></h4>
+
+      <button id="play_again"
+        class="w-full py-3 mb-3 bg-green-500 text-black font-bold text-lg rounded-lg shadow-md hover:bg-green-600 active:bg-green-700 transition-transform transform hover:scale-105 active:scale-95">
+        Play Again
+      </button>
+
+    </div>
+  </div>
+
+
+  <!--Lose window -->
+  <div id="gameOverWindow"
+    class="absolute z-20 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-72 p-6 bg-gray-900 border-4 border-red-600 rounded-lg shadow-xl text-center hidden">
+    <h1 class="text-red-500 text-3xl font-mono mb-4 animate-pulse">GAME OVER</h1>
+    <p class="text-gray-300 text-lg font-mono mb-4">Better luck next time!</p>
+
+    <button id="restart"
+      class="w-full py-2 mb-2 bg-yellow-400 text-black font-bold rounded shadow-md hover:bg-yellow-500 active:bg-yellow-600">
+      <p class="text-lg">Restart</p>
+    </button>
+  </div>
+
+  <div id="main_container"
+    class="flex transition ease-in-out duration-200 items-center max-w-[500px] justify-center text-4xl sm:text-5xl mx-5 w-full rounded-xl grid grid-cols-3 gap-2">
+    <div class="box flex items-center rounded-xl justify-center text-4xl sm:text-5xl text-white border b-white h-32">
+      <h1>?</h1>
+    </div>
+    <div class="box flex items-center rounded-xl justify-center text-4xl sm:text-5xl text-white border b-white h-32">
+      <h1>?</h1>
+    </div>
+    <div
+      class="box flex items-center rounded-xl justify-center text-4xl sm:text-5xl text-white border b-white border b-white h-32">
+      <h1>?</h1>
+    </div>
+    <div class="box flex items-center rounded-xl justify-center text-4xl sm:text-5xl text-white border b-white h-32">
+      <h1>?</h1>
+    </div>
+    <div class="box flex items-center rounded-xl justify-center text-4xl sm:text-5xl text-white border b-white h-32">
+      <h1>?</h1>
+    </div>
+    <div class="box flex items-center rounded-xl justify-center text-4xl sm:text-5xl text-white border b-white h-32">
+      <h1>?</h1>
+    </div>
+    <div class="box flex items-center rounded-xl justify-center text-4xl sm:text-5xl text-white border b-white h-32">
+      <h1>?</h1>
+    </div>
+    <div class="box flex items-center rounded-xl justify-center text-4xl sm:text-5xl text-white border b-white h-32">
+      <h1>?</h1>
+    </div>
+    <div class="box flex items-center rounded-xl justify-center text-4xl sm:text-5xl text-white border b-white h-32">
+      <h1>?</h1>
+    </div>
+    <div class="box flex items-center rounded-xl justify-center text-4xl sm:text-5xl text-white border b-white h-32">
+      <h1>?</h1>
+    </div>
+    <div class="box flex items-center rounded-xl justify-center text-4xl sm:text-5xl text-white border b-white h-32">
+      <h1>?</h1>
+    </div>
+    <div class="box flex items-center rounded-xl justify-center text-4xl sm:text-5xl text-white border b-white h-32">
+      <h1>?</h1>
+    </div>
+    <div class="box flex items-center rounded-xl justify-center text-4xl sm:text-5xl text-white border b-white h-32">
+      <h1>?</h1>
+    </div>
+    <div class="box flex items-center rounded-xl justify-center text-4xl sm:text-5xl text-white border b-white h-32">
+      <h1>?</h1>
+    </div>
+    <div class="box flex items-center rounded-xl justify-center text-4xl sm:text-5xl text-white border b-white h-32">
+      <h1>?</h1>
+    </div>
+  </div>
+</body>
+
+</html>
