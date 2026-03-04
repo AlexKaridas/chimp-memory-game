@@ -1,2 +1,5 @@
+target/
 cert.pem
 key.pem
+.DS_Store
+*.swp
