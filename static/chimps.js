@@ -1,11 +1,10 @@
 let mistakes = 0;
 let begin = false;
 let startTime;
-let timerInterval;
 let numbers = [];
-let win_sound = "/static/sound_files/win_sound.mp3";
-let game_over_sound = "/static/sound_files/game_over.mp3";
-let error = "/static/sound_files/error.mp3";
+const win_sound = "/static/sound_files/win_sound.mp3";
+const game_over_sound = "/static/sound_files/game_over.mp3";
+const error_sound = "/static/sound_files/error.mp3";
 
 window.onunhandledrejection = function (event) {
   console.log(`Reason: ${event.reason}`,
@@ -15,123 +14,117 @@ window.onunhandledrejection = function (event) {
 
 function playSound(path) {
   console.log("Playing sound: ", path);
-  let sound = new Audio();
-  const sourceMp3 = document.createElement('source');
-  sourceMp3.src = path;
-  sourceMp3.type = 'audio/mpeg';
-  sound.appendChild(sourceMp3);
-
-  sound.addEventListener('loadeddata', () => {
-    sound.play();
-  });
-
-  sound.addEventListener('error', (error) => {
-    console.error("Error loading or playing sound:", error);
-  });
+  const sound = new Audio(path);
   sound.play().catch(error => {
     console.error("Error with play():", error);
   });
   sound.addEventListener('ended', () => {
-    console.log("Sound finished playing.");
     sound.remove();
   });
 }
 
-// Generating random numbers table from 1 to 9 to be rendered in the screen instead of counter
-for (i = 1; i <= 9; i++) {
-  let rand_num = Math.floor(Math.random() * (9 - 1 + 1)) + 1;
-
-  if (numbers.includes(rand_num)) {
-    while (numbers.includes(rand_num) && i <= 9) {
-      rand_num = Math.floor(Math.random() * (9 - 1 + 1)) + 1;
-    }
-    numbers.push(rand_num);
-  } else {
-    numbers.push(rand_num);
+function generateNumbers() {
+  const nums = [];
+  for (let i = 1; i <= 9; i++) {
+    nums.push(i);
   }
+  // Fisher-Yates shuffle
+  for (let i = nums.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [nums[i], nums[j]] = [nums[j], nums[i]];
+  }
+  return nums;
 }
-
 
 function fill_table(table) {
   let counter = 0;
-  let position = {};
-  let good = [0];
+  const position = {};
+  const good = [0];
 
   document.querySelectorAll(".box h1").forEach((h1, index) => {
+    const box = h1.parentElement;
     if (table.includes(index + 1)) {
       position[index] = numbers[counter];
       h1.innerText = `${numbers[counter]}`;
-      h1.parentElement.style.backgroundColor = "green";
-      h1.parentElement.style.border = "2px solid white";
-      h1.parentElement.addEventListener("click", () => {
-        click(table, good, index, position, h1);
+      box.style.backgroundColor = "green";
+      box.style.border = "2px solid white";
+      
+      // Remove old event listeners if any (by replacing the node or just being careful)
+      const newBox = box.cloneNode(true);
+      box.parentNode.replaceChild(newBox, box);
+      
+      newBox.addEventListener("click", () => {
+        click(table, good, index, position, newBox.querySelector("h1"));
       });
       counter++;
     } else {
-      h1.parentElement.style.border = "none";
+      box.style.border = "none";
       h1.innerText = ``;
-      h1.backgroundColor = "black";
+      box.style.backgroundColor = "black";
     }
   });
-
 }
 
 function begin_window() {
-  let button = document.querySelector("#start");
-  let parentwindow = document.querySelector("#start_window");
-  let back_window = document.querySelector("#back_window");
-
-  startTime = Date.now();
+  const button = document.querySelector("#start");
+  const parentwindow = document.querySelector("#start_window");
+  const back_window = document.querySelector("#back_window");
 
   if (button) {
     button.addEventListener("click", () => {
       parentwindow.style.display = "none";
       back_window.style.display = "none";
+      startTime = Date.now(); // Start timer here
+      begin = true;
     });
   }
 }
 
 function click(table, good, index, position, h1) {
-  good.push(position[index]);
-  let max = good.length - 1;
-
-  if (good[max] - good[max - 1] == 1) {
-    if (good[max] == 1) {
-      document.querySelectorAll(".box h1").forEach((h1, index) => {
-        if (table.includes(index + 1)) {
-          h1.innerText = `?`;
-        } else {
-          h1.parentElement.style.border = "none";
-          h1.innerText = ``;
-          h1.parentElement.style.backgroundColor = "black";
-          h1.backgroundColor = "black";
+  if (!begin) return;
+  
+  const val = position[index];
+  if (val === good[good.length - 1] + 1) {
+    good.push(val);
+    
+    if (val === 1) {
+      document.querySelectorAll(".box").forEach((box, idx) => {
+        const boxH1 = box.querySelector("h1");
+        if (table.includes(idx + 1)) {
+          boxH1.innerText = `?`;
         }
       });
     }
-    h1.parentElement.style.border = "none";
+    
+    const box = h1.parentElement;
+    box.style.border = "none";
     h1.innerText = ``;
-    h1.parentElement.style.backgroundColor = "black";
-    h1.backgroundColor = "black";
-    h1.parentElement.style.pointerEvents = "none";
+    box.style.backgroundColor = "black";
+    box.style.pointerEvents = "none";
+
+    if (val === 9) {
+      console.log("Win");
+      win();
+    }
   } else {
     mistake(h1);
-    good.pop();
-  }
-
-  if (good.includes(9)) {
-    console.log("Win");
-    win();
   }
 }
 
 function mistake(h1) {
-  playSound(error);
-  h1.parentElement.style.border = '2px solid red';
+  playSound(error_sound);
+  const box = h1.parentElement;
+  const originalBorder = box.style.border;
+  const originalColor = h1.style.color;
+  
+  box.style.border = '2px solid red';
   h1.style.color = 'red';
+  
   setTimeout(() => {
-    h1.parentElement.style.border = '2px solid white';
-    h1.style.color = 'white';
+    box.style.border = originalBorder;
+    h1.style.color = originalColor;
   }, 200);
+  
   mistakes++;
   if (mistakes >= 2) {
     lost();
@@ -139,71 +132,64 @@ function mistake(h1) {
 }
 
 function lost() {
+  begin = false;
   playSound(game_over_sound);
-  let restart_button = document.getElementById("restart");
-  let game_over_window = document.getElementById("gameOverWindow");
-  let back_window = document.querySelector("#back_window");
+  const restart_button = document.getElementById("restart");
+  const game_over_window = document.getElementById("gameOverWindow");
+  const back_window = document.querySelector("#back_window");
 
   if (back_window && game_over_window) {
     back_window.style.display = "block";
     back_window.classList.remove("hidden");
-
     game_over_window.classList.remove("hidden");
     game_over_window.classList.add("block");
   }
-  restart_button.addEventListener("click", () => {
-    window.location.reload(true);
-  })
+  
+  restart_button.onclick = () => {
+    window.location.reload();
+  };
 }
 
 function win() {
-  playSound(win_sound);
-  let win_window = document.getElementById("win");
-  let play_again_button = document.getElementById("play_again");
   begin = false;
-  let timer = document.getElementById("timer");
-  const elapsed = Date.now() - startTime;
-  const formattedElapsed = String(elapsed).padStart(2, '0');
-  if (timer) {
-    timer.innerText = `Completed in ${formattedElapsed}`;
+  playSound(win_sound);
+  const win_window = document.getElementById("win");
+  const play_again_button = document.getElementById("play_again");
+  const timerDisplay = document.getElementById("timer");
+  
+  const elapsed = (Date.now() - startTime) / 1000;
+  if (timerDisplay) {
+    timerDisplay.innerText = `Completed in ${elapsed.toFixed(2)}s`;
   }
+  
   if (win_window) {
     win_window.classList.remove("hidden");
     win_window.classList.add("block");
   }
-  play_again_button.addEventListener("click", () => {
-    window.location.reload(true);
-  });
-
+  
+  play_again_button.onclick = () => {
+    window.location.reload();
+  };
 }
 
-function random_number() {
-  return Math.floor(Math.random() * (15 - 1 + 1)) + 1;
-}
-
-function random_table() {
-  let table = [];
-  for (i = 0; i < 9; i++) {
-    let num = random_number();
-    if (table.includes(num)) {
-      while (table.includes(num) && i < 9) {
-        num = random_number();
-      }
-      table.push(num);
-    } else {
-      table.push(num);
+function random_indices() {
+  const indices = [];
+  while (indices.length < 9) {
+    const num = Math.floor(Math.random() * 15) + 1;
+    if (!indices.includes(num)) {
+      indices.push(num);
     }
   }
-  return table;
+  return indices;
+}
+
+function main_load() {
+  numbers = generateNumbers();
+  const table = random_indices();
+  fill_table(table);
+  begin_window();
 }
 
 document.addEventListener("DOMContentLoaded", () => {
   main_load();
 });
-
-function main_load() {
-  let table = [];
-  table = random_table();
-  fill_table(table);
-  begin_window();
-}
