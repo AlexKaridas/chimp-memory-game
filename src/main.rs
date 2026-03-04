@@ -39,7 +39,7 @@ async fn test_handler() -> impl Responder {
 }
 
 #[actix_web::main]
-async fn run() -> std::io::Result<()> {
+async fn main() -> std::io::Result<()> {
     std::env::set_var("RUST_LOG", "actix_web=info");
     env_logger::init();
 
@@ -54,6 +54,8 @@ async fn run() -> std::io::Result<()> {
         .unwrap();
     builder.set_certificate_chain_file("cert.pem").unwrap();
 
+    println!("Starting server at https://0.0.0.0:8080");
+
     HttpServer::new(move || {
         App::new()
             .app_data(counter.clone())
@@ -63,14 +65,7 @@ async fn run() -> std::io::Result<()> {
     })
     .shutdown_timeout(10)
     .workers(4)
-    .bind(("0.0.0.0", 8080))?
+    .bind_openssl(("0.0.0.0", 8080), builder)?
     .run()
     .await
-}
-
-fn main() {
-    match run() {
-        Ok(()) => println!("Running"),
-        Err(err) => println!("Error: {:?}", err),
-    }
 }
